@@ -214,8 +214,23 @@ class log_dep_calls extends strider_core_b2 {
 //*********************************
 
 	function add_admin_page() {
-		$param = array( 'plugins.php', __( 'Deprecated Call Log', $this->text_domain ), __( 'Deprecated Calls', $this->text_domain ), 'manage_options', 'deprecated', 'admin_page', $this->menu_icon_url);
+		$param = array( 'plugins.php', __( 'Deprecated Call Log', $this->text_domain ), __( 'Deprecated Calls', $this->text_domain ), 'manage_options', 'deprecated', 'admin_page' );
 		return $this->_add_admin_page( $param );
+	}
+
+	function register_settings () {
+		error_log('register_settings START');
+		register_setting( $this->text_domain . '-group', $this->option_name, array(&$this, 'process_options' ) );
+		error_log('register_settings END');
+	}
+
+	function process_options ( $input ) {
+		error_log('process_options START');
+		$input['to_log'] = wp_validate_boolean( $input['to_log'] );
+		$input['to_table'] = wp_validate_boolean( $input['to_table'] );
+		$input = $this->get_default_options( 'merge', $input );
+		error_log('process_options END');
+		return $input;
 	}
 
 	function filter_plugin_actions( $links, $file ){
@@ -228,49 +243,46 @@ class log_dep_calls extends strider_core_b2 {
 		return $this->_add_ozh_adminmenu_icon( $param, 'deprecated' );
 	}
 
-	function process_form() {
-		if ( isset( $_POST['save_settings'] ) ) {
-			$options = $this->_process_form( '', $this->get_options() );
-			if ( $options['to_table'] ) $this->setup_log_table();
-		} else if ( isset( $_POST['purge_table'] ) ) {
-			check_admin_referer( $this->text_domain . '-purge-table' );
+	function process_secondary_forms() {
+		if ( isset( $_POST['purge_table'] ) ) {
+			wp_verify_nonce( $this->text_domain . '-purge-table' );
 			$this->purge_log_table( 0 );
 			echo '<div id="message" class="updated fade"><p><strong>' . __( 'Records Purged.', $this->text_domain ) . '</strong></p></div>';
 		} else if ( isset( $_POST['test_deprecated'] ) ) {
-			check_admin_referer( $this->text_domain . '-test' );
+			wp_verify_nonce( $this->text_domain . '-test' );
 			$this->test();
 		}
-		return $this->get_options( true );
+		return true;
 	}
 
 	function admin_page() {
 		// $this->purge_log_table( 3600 );
 		add_action( 'in_admin_footer', array( &$this, 'admin_footer' ), 9 );
-
-		$options = $this->process_form();
+		$this->process_secondary_forms();
 ?>
 <div class="wrap">
 	<h2><?php _e( 'Deprecated Call Log Settings', $this->text_domain ); ?></h2>
-	<form action="plugins.php?page=deprecated" method="post">
+	<form action="options.php" method="post">
 		<?php
-		if ( function_exists( 'wp_nonce_field' ) )
-			wp_nonce_field( $this->text_domain . '-update-options' );
+		settings_fields( $this->text_domain . '-group' );
+		$options = get_option( $this->option_name );
 		?>
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
 					<th scope="row">Logging</th>
-					<td><label for="to_log"><input type="checkbox" name="<?php echo $this->option_name; ?>[to_log]" id="to_log" value="true"<?php echo( checked( $options['to_log'] ) ); ?> /> <?php _e( 'Record calls in PHP log', $this->text_domain ); ?></label><br />
-					<label for="to_table"><input type="checkbox" name="<?php echo $this->option_name; ?>[to_table]" id="to_table" value="true"<?php echo( checked( $options['to_table'] ) ); ?> /> <?php _e( 'Record calls in Database', $this->text_domain ); ?></label><br />
+					<td><label for="to_log"><input type="checkbox" name="<?php echo $this->option_name; ?>[to_log]" id="to_log" <?php echo( checked( $options['to_log'] ) ); ?>/> <?php _e( 'Record calls in PHP log', $this->text_domain ); ?></label><br />
+					<label for="to_table"><input type="checkbox" name="<?php echo $this->option_name; ?>[to_table]" id="to_table" <?php echo( checked( $options['to_table'] ) ); ?>/> <?php _e( 'Record calls in Database', $this->text_domain ); ?></label><br />
 					<?php _e( '(Recording to Database will display calls on this page.)', $this->text_domain ); ?></td>
 				</tr>
 			</tbody>
 		</table>
-		<div class="submit">
-			<input type="submit" name="save_settings" class="button-primary" value="<?php _e( 'Save Changes' ) ?>" /></div>
+		<p class="submit">
+			<input type="submit" name="save_settings" class="button-primary" value="<?php _e( 'Save Changes' ) ?>" /></p>
 	</form>
 
 <?php
+
 		if ( $this->log_table_exists() ) {
 			global $wpdb;
 			$query = "SELECT DISTINCT target, call_type, calling_file, line_num, replacement, version
