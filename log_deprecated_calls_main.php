@@ -219,17 +219,13 @@ class log_dep_calls extends strider_core_b2 {
 	}
 
 	function register_settings () {
-		error_log('register_settings START');
 		register_setting( $this->text_domain . '-group', $this->option_name, array(&$this, 'process_options' ) );
-		error_log('register_settings END');
 	}
 
 	function process_options ( $input ) {
-		error_log('process_options START');
 		$input['to_log'] = wp_validate_boolean( $input['to_log'] );
 		$input['to_table'] = wp_validate_boolean( $input['to_table'] );
 		$input = $this->get_default_options( 'merge', $input );
-		error_log('process_options END');
 		return $input;
 	}
 
