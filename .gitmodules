@@ -1,0 +1,3 @@
+[submodule "strider-core"]
+	path = strider-core
+	url = git://github.com/strider72/strider-core
