@@ -52,16 +52,12 @@ class log_dep_calls extends strider_core_b2 {
 //*********************************
 
 	function deprecated_function( $function, $replacement = null, $version = 'N/A' ) {
-		$options = $this->get_options();
 		$backtrace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT, 5 );
 		$target = $backtrace[4]['function'];
 		$caller = $backtrace[4]['file'];
 		$line_num = $backtrace[4]['line'];
 
-		if ( $options['to_log'] )
-			$this->write_to_log( $target, 'function', $caller, $line_num, $replacement, $version );
-		if ( $options['to_table'] )
-			$this->write_to_table( $target, 'function', $caller, $line_num, $replacement, $version );
+		return $this->handle_call( $target, 'function', $caller, $line_num, $replacement, $version );
 	}
 
 	function deprecated_file( $file, $replacement = null, $version = 'N/A' ) {
