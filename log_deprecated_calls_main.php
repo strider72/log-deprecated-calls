@@ -1,7 +1,7 @@
 <?php
 // TODO: Make sure table format updates automatically
 
-class log_dep_calls extends strider_core_b1 {
+class log_dep_calls extends strider_core_b2 {
 
 	var $option_name = 'plugin_log-deprecated_settings';
 	var $option_version = '0.4.1';
