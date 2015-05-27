@@ -35,16 +35,15 @@ class log_dep_calls extends strider_core_b2 {
 //		register_deactivation_hook( __FILE__, array( &$this, 'unschedule_purge' ) );
 	}
 
-	function set_defaults( $mode = 'merge', $curr_options = null ) {
+	function get_default_options( $mode = 'merge', $curr_options = null ) {
 		// $mode can also be set to "unset" or "reset"
-		$param = func_get_args();
-		$param['def_options'] = array(
+		$def_options = array(
 			'last_opts_ver' => $this->option_version,
 			'last_table_ver' => $this->table_version,
 			'to_log' => true,
 			'to_table' => false,
 			'purge_timer' => 3600 );
-		return $this->_set_defaults( $param );
+		return $this->_get_default_options( $def_options, $mode, $curr_options );
 	}
 
 //*********************************
