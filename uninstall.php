@@ -15,7 +15,7 @@ function uninstall_plugin_log_deprecated_calls() {
 		wp_clear_scheduled_hook( 'purge_deprecated_calls_log' );
 	}
 	
-	include_once( 'strider_core/uninstall.php' );
+	include_once( 'strider-core/uninstall.php' );
 
 }
 
