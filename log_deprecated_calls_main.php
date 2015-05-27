@@ -9,7 +9,7 @@ class log_dep_calls extends strider_core_b2 {
 	var $text_domain = 'log_deprecated_calls';
 
 	var $table_name = 'deprecated_calls';
-	var $table_version = '1.0';
+	var $table_version = '1.1';
 
 	function __construct() {
 		global $wpdb;
