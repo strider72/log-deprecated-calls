@@ -54,8 +54,6 @@ class log_dep_calls extends strider_core_b2 {
 	function deprecated_function( $function, $replacement = null, $version = 'N/A' ) {
 		$options = $this->get_options();
 		$backtrace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT, 5 );
-		//	error_log( '*** ' . __FUNCTION__ . ' BACKTRACE ***:');
-		//	error_log( print_r( $backtrace, true ) );
 		$target = $backtrace[4]['function'];
 		$caller = $backtrace[4]['file'];
 		$line_num = $backtrace[4]['line'];
@@ -69,8 +67,6 @@ class log_dep_calls extends strider_core_b2 {
 	function deprecated_file( $file, $replacement = null, $version = 'N/A' ) {
 		$options = $this->get_options();
 		$backtrace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT, 5 );
-		//	error_log( '*** ' . __FUNCTION__ . ' BACKTRACE ***:');
-		//	error_log( print_r( $backtrace, true ) );
 		$target = $backtrace[3]['file'];
 		$caller = $backtrace[4]['file'];
 		$line_num = $backtrace[4]['line'];
@@ -84,8 +80,6 @@ class log_dep_calls extends strider_core_b2 {
 	function deprecated_argument( $function, $message = null, $version = 'N/A' ) {
 		$options = $this->get_options();
 		$backtrace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT, 5 );
-		//	error_log( '*** ' . __FUNCTION__ . ' BACKTRACE ***:');
-		//	error_log( print_r( $backtrace, true ) );
 		$target = $backtrace[4]['function'];
 		$caller = $backtrace[4]['file'];
 		$line_num = $backtrace[4]['line'];
