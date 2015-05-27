@@ -36,7 +36,7 @@ class log_dep_calls extends strider_core_b2 {
 	}
 
 	function get_default_options( $mode = 'merge', $curr_options = null ) {
-		// $mode can also be set to "unset" or "reset"
+		// $mode can also be set to "reset"
 		$def_options = array(
 			'last_opts_ver' => $this->option_version,
 			'last_table_ver' => $this->table_version,
