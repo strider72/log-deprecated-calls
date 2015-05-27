@@ -121,19 +121,35 @@ class log_dep_calls extends strider_core_b2 {
 
 		global $wpdb;
 
-		$insert = $wpdb->prepare(
-			"INSERT INTO $this->table_name (time, type, target, replacement, calling_file, line_num, version)
-			VALUES ( %d, %s, %s, %s, %s, %d, %s )",
-			time(),
+		$dbwhere = $wpdb->prepare(
+			"WHERE call_type=%s AND target=%s AND replacement=%s AND calling_file=%s AND line_num=%d",
 			$type,
 			$target,
 			$replacement,
 			$caller,
-			$line_num,
-			$version
+			$line_num
 		);
+		$dbsearch = "SELECT * FROM $this->table_name " . $dbwhere;
+		$results = $wpdb->query( $dbsearch );
 
-		$results = $wpdb->query( $insert );
+		if( $results == 0 ) {
+			$dbquery  = $wpdb->prepare(
+				"INSERT INTO $this->table_name (call_time, call_type, target, replacement, calling_file, line_num, version, counter)
+				VALUES ( %d, %s, %s, %s, %s, %d, %s, %d )",
+				time(),
+				$type,
+				$target,
+				$replacement,
+				$caller,
+				$line_num,
+				$version,
+				1
+			);
+		} else {
+			$timenow = time();
+			$dbquery = "UPDATE $this->table_name SET counter = counter + 1, call_time = $timenow " . $dbwhere;
+		}
+		$results = $wpdb->query( $dbquery );
 		return $results;
 	}
 
