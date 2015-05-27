@@ -15,6 +15,19 @@ There is an admin screen under the "Plugins" menu.  There you can toggle logging
 WordPress 2.7+: If you delete the plugin using the WordPress "Delete" button (on the Manage Plugins page) it will clean up after itself by deleting its own settings from the options table, the log table, and any scheduled events.
 
 ===VERSION HISTORY===
+v1.3 (2015-05-26)
+* Huge improvement to database efficiency. Rather than a new record for every call, non-unique calls are a single record with a counter.
+* More fixes to settings page (WP Settings API pains)
+
+v1.2 (2015-05-23)
+* Bugfix: Settings were not saving properly
+* Now uses WordPress Settings API
+
+v1.1 (2015-05-14)
+* Bugfix: blocker bug in backtrace function
+* Bugfix: Saving settings in admin was unsetting some settings
+* Some variable renames for clarity
+* Changed strider_core string to _b2 to avoid breakage
 
 v 0.6
 * Added keys to $strider_core_plugins array
