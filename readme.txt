@@ -4,15 +4,15 @@ plugin for WordPress
 by Stephen Rider
 http://striderweb.com/nerdaphernalia/features/wp-log-deprecated-calls/
 
-Logs any calls to deprecated functions or files, and identifies the function that made the call.  This should be very useful for plugin and theme authors who want to keep their code up-to-date with current WordPress standards.  Deprecated calls are logged via error_log(), so they should show up in your regular PHP log file.
+Logs any calls to deprecated functions, files, or arguments, and identifies the function that made the call.  This should be very useful for plugin and theme authors who want to keep their code up-to-date with current WordPress standards.  Deprecated calls are logged via error_log() -- so they should show up in your regular PHP log file -- or to the database where they can be viewed directly in a WP Admin page.
 
 ===USAGE===
 
 Simply activate to record deprecated calls to your PHP log.
 
-There is an admin screen under the "Plugins" menu.  There you can toggle logging to PHP log or a table in the WordPress Database.  You can also see records from that table (if any), and run a "test" that calls a dummy deprecated function and includes a dummy deprecated file.
+There is an admin screen under the "Plugins" menu.  There you can toggle logging to PHP log or a table in the WordPress Database.  You can also see records from that table (if any), and run a "test" that calls a dummy deprecated function, includes a dummy deprecated file, and calls a function with a deprecated argument.
 
-WordPress 2.7+: If you delete the plugin using the WordPress "Delete" button (on the Manage Plugins page) it will clean up after itself by deleting its own settings from the options table, the log table, and any scheduled events.
+WordPress 2.7+: If you delete the plugin using the WordPress "Delete" button (on the Manage Plugins page) it will clean up after itself by deleting its own settings from the options table, and removing the log table.
 
 ===VERSION HISTORY===
 v1.3 (2015-05-26)

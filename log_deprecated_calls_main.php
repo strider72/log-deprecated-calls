@@ -1,5 +1,5 @@
 <?php
-// TODO: Make sure table format updates automatically
+// TODO: Remove the old purge scheduling stuff. No longer needed after v1.3.
 
 class log_dep_calls extends strider_core_b2 {
 
