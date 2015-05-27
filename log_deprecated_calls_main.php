@@ -149,18 +149,25 @@ class log_dep_calls extends strider_core_b2 {
 //*********************************
 
 	function setup_log_table() {
+
 		$options = $this->get_options();
-		
-		if ( ! $this->log_table_exists() 
-		|| $options['last_table_ver'] != $this->table_version ) {
+		if ( $options['last_table_ver'] != $this->table_version ) {
+			global $wpdb;
+			$sql = "DROP TABLE IF EXISTS $this->table_name;";
+			$wpdb->query($sql);
+			$this->update_option( 'last_table_ver', $this->table_version );
+		}
+
+		if ( ! $this->log_table_exists() ) {
 			$sql = 'CREATE TABLE ' . $this->table_name . ' (
-				time bigint(11) DEFAULT \'0\' NOT NULL,
-				type tinytext NOT NULL,
+				call_time bigint(11) DEFAULT \'0\' NOT NULL,
+				call_type tinytext NOT NULL,
 				target tinytext NOT NULL,
 				replacement tinytext,
 				calling_file tinytext NOT NULL,
 				line_num int NOT NULL,
-				version tinytext
+				version tinytext,
+				counter int UNSIGNED
 				);';
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -183,7 +190,7 @@ class log_dep_calls extends strider_core_b2 {
 		global $wpdb;
 		$deadline = time() - $timerInSeconds;
 
-		$delquery = "DELETE FROM $this->table_name WHERE time < $deadline";
+		$delquery = "DELETE FROM $this->table_name WHERE call_time < $deadline";
 		return $wpdb->query( $delquery );
 	}
 
@@ -251,7 +258,7 @@ class log_dep_calls extends strider_core_b2 {
 <?php
 		if ( $this->log_table_exists() ) {
 			global $wpdb;
-			$query = "SELECT DISTINCT target, type, calling_file, line_num, replacement, version 
+			$query = "SELECT DISTINCT target, call_type, calling_file, line_num, replacement, version
 					  FROM $this->table_name 
 					  ORDER BY calling_file, line_num";
 			$result = $wpdb->get_results( $query, ARRAY_A );
@@ -284,7 +291,7 @@ class log_dep_calls extends strider_core_b2 {
 					$record['target'] = str_replace( $strip_path, '', $record['target'] );
 					$record['calling_file'] = str_replace( $strip_path, '', $record['calling_file'] );
 
-					switch( $record['type'] ) {
+					switch( $record['call_type'] ) {
 						case 'function' :
 							$record['target'] .= '()';
 							$record['replacement'] .= '()';
@@ -294,9 +301,9 @@ class log_dep_calls extends strider_core_b2 {
 							break;
 					}
 
-					$record['type'] = ucwords($record['type']);
-					if ( $record['type'] == 'Argument' )
-						$record['type'] .= ' in';
+					$record['call_type'] = ucwords($record['call_type']);
+					if ( $record['call_type'] == 'Argument' )
+						$record['call_type'] .= ' in';
 					if ( $record['calling_file'] != $last_caller ) {
 						$grouphead = "<tr style=\"font-size: 120%\"><th colspan=\"3\" style=\"height: 2em; text-align: left; vertical-align: bottom;\"><span style=\"font-family: Courier, Courier New, Monaco, monospace;\">{$record['calling_file']}</span></th></tr>";
 						// $count = 1;
@@ -309,7 +316,7 @@ class log_dep_calls extends strider_core_b2 {
 		{$grouphead}
 		<tr{$rowclass}>
 			<td rowspan="4">{$count}</td>
-			<th style="text-align: right;">{$record['type']}</th><td style="padding-left: 0.5em;"><span style="font-family: Courier, Courier New, Monaco, monospace;">{$record['target']}</span></td></tr>
+			<th style="text-align: right;">{$record['call_type']}</th><td style="padding-left: 0.5em;"><span style="font-family: Courier, Courier New, Monaco, monospace;">{$record['target']}</span></td></tr>
 		<tr{$rowclass}>
 			<th style="text-align: right;">Replaced with</th><td style="padding-left: 0.5em;"><span style="font-family: Courier, Courier New, Monaco,  monospace;">{$record['replacement']}</span></td></tr>
 		<tr{$rowclass}>
