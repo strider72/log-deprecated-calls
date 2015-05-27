@@ -1,0 +1,59 @@
+Log Deprecated Calls
+plugin for WordPress
+
+by Stephen Rider
+http://striderweb.com/nerdaphernalia/features/wp-log-deprecated-calls/
+
+Logs any calls to deprecated functions or files, and identifies the function that made the call.  This should be very useful for plugin and theme authors who want to keep their code up-to-date with current WordPress standards.  Deprecated calls are logged via error_log(), so they should show up in your regular PHP log file.
+
+===USAGE===
+
+Simply activate to record deprecated calls to your PHP log.
+
+There is an admin screen under the "Plugins" menu.  There you can toggle logging to PHP log or a table in the WordPress Database.  You can also see records from that table (if any), and run a "test" that calls a dummy deprecated function and includes a dummy deprecated file.
+
+WordPress 2.7+: If you delete the plugin using the WordPress "Delete" button (on the Manage Plugins page) it will clean up after itself by deleting its own settings from the options table, the log table, and any scheduled events.
+
+===VERSION HISTORY===
+
+v 0.6
+* Added keys to $strider_core_plugins array
+* Added menu icon.
+* Changed Version Check URI
+* switched to WP_PLUGIN_URL instead of WP_CONTENT_URL (dev8)
+
+v 0.5.1
+* Minor updates to Admin page
+
+v 0.5
+* Built on strider_core 0.1-dev
+* Better organization of table in admin page -- grouped by calling file, line
+* Bugfix in get_options() -- was running set_defaults() every time;
+* Ozh Drop Down Menus icon
+* Scheduled table purges turned off until I can figure them out better
+
+v 0.4 -- 11 August 2008
+* Added uninstall.php (New WP 2.7 feature)
+* Reworked log table a bit (field order)
+* Strips ABSPATH or WP_CONTENT_DIR from paths when displaying table
+* Normalized parentheses on function names
+* Added some missing l18n calls in write_to_log()
+* Added "Test" button to admin
+
+v 0.3
+* Admin page
+	* Settings to toggle logging to PHP log/Database/both
+	* Displays DB-logged calls
+* Lots of code cleanup
+* Scheduled table purges (not well tested)
+
+v 0.2
+* Now trims ABSPATH from paths (record to log only)
+* Reworked test function
+* Stuff for creating/updating table
+* write_to_table function
+* write_to_log function (0.1 repeated similar code 4 times...)
+* "Nerdaphernalia standard" structure -- Class/ Admin polish/ set_defaults/ lots of abstraction
+
+v 0.1 July 29, 2008
+* First public release
