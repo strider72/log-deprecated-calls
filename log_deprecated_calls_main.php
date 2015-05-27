@@ -3,7 +3,7 @@
 
 class log_dep_calls extends strider_core_b2 {
 
-	var $option_name = 'plugin_log-deprecated_settings';
+	var $option_name = 'plugin_log-deprecated-calls_settings';
 	var $option_version = '0.4.1';
 	var $option_bools = array ( 'to_log', 'to_table' );
 	var $text_domain = 'log_deprecated_calls';
