@@ -5,7 +5,7 @@ Plugin URI: http://striderweb.com/nerdaphernalia/features/wp-log-deprecated-call
 Description: Logs any calls to deprecated functions, files, or function arguments, and identifies the function that made the call.  This should be very useful for plugin and theme authors who want to keep their code up-to-date with current WordPress standards.
 Author: Stephen Rider
 Author URI: http://striderweb.com/nerdaphernalia/
-Version: 1.2
+Version: 1.3
 Version Check URI: http://striderweb.com/wp-content/versions/log_deprecated.txt
 TextDomain: log_deprecated_calls
 DomainPath: /lang/

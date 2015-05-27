@@ -17,7 +17,6 @@ WordPress 2.7+: If you delete the plugin using the WordPress "Delete" button (on
 ===VERSION HISTORY===
 v1.3 (2015-05-26)
 * Huge improvement to database efficiency. Rather than a new record for every call, non-unique calls are a single record with a counter.
-* More fixes to settings page (WP Settings API pains)
 
 v1.2 (2015-05-23)
 * Bugfix: Settings were not saving properly
