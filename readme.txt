@@ -1,3 +1,7 @@
+= IMPORTANT NOTICE =
+For some reason the contents of the /strider-core directory are now downloading when you clone the project or download a Zip file.  Hopefully fixed soon, but GitHub hasn't gotten back to me. In the meantime you can separately clone the strider-core project into that directory (it's a sub-project) to use this plugin.
+
+
 Log Deprecated Calls
 plugin for WordPress
 
