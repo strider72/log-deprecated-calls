@@ -331,7 +331,13 @@ abstract class strider_core_b2_LogDeprecatedCalls {
 //  Version Checking
 //***********************
 
+//  ** WP Plugin Repository reviewer:  **
+//  IMPORTANT: This doesn't do anything unless the plugin has a "Version Check URI" header, but the code must remain here because it's part of a common framework that SOME plugins do use.
+
+	// TODO: Each active Strider Core plugin should specify (with a function call?) whether it uses version checking or not.  If none do, no need to run any of this at all.
+
 	function version_check() {
+		// See core_init() function. This entire section can be activated with a call to version_check()
 		// FIXME: User should be able to control if version check is for all SC plugins or just this one.
 		// TODO: What happens if branched core uses same system with different variable names?  Duplicate calls?
 
