@@ -1,6 +1,5 @@
 <?php
 // TODO: Make sure table format updates automatically
-// TODO: Remove the old purge scheduling stuff. No longer needed after v1.3.
 
 class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 
@@ -30,10 +29,6 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 		add_action( 'deprecated_argument_run', array(&$this, 'deprecated_argument'), 1, 3 );
 		add_action( 'admin_menu', array( &$this, 'add_admin_page' ) );
 
-		// FIXME: Schedule cron so that table purges old records every so often.  Otherwise table can get really massive
-//		add_filter( 'cron_schedules', array( &$this, 'new_cron_intervals' ) );
-//		register_activation_hook( __FILE__, array( &$this, 'schedule_purge' ) );
-//		register_deactivation_hook( __FILE__, array( &$this, 'unschedule_purge' ) );
 	}
 
 	function get_default_options( $mode = 'merge', $curr_options = null ) {
@@ -42,8 +37,7 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 			'last_opts_ver' => $this->option_version,
 			'last_table_ver' => $this->table_version,
 			'to_log' => true,
-			'to_table' => false,
-			'purge_timer' => 3600 );
+			'to_table' => false );
 		return $this->_get_default_options( $def_options, $mode, $curr_options );
 	}
 
@@ -198,9 +192,8 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 
 	function purge_log_table( $timerInSeconds = null ) {
 		// Purge all records older than {$timerInSeconds} seconds
-		if ( $timerInSeconds === null ) {
-			$options = $this->get_options();
-			$timerInSeconds = $options['purge_timer'];
+		if ( ! $timerInSeconds === null ) {
+			$timerInSeconds = 0;
 		}
 // error_log("running purge_log_table( $timer )");  // testing only
 		global $wpdb;
@@ -243,7 +236,7 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 	function process_secondary_forms() {
 		if ( isset( $_POST['purge_table'] ) ) {
 			wp_verify_nonce( $this->text_domain . '-purge-table' );
-			$this->purge_log_table( 0 );
+			$this->purge_log_table();
 			echo '<div id="message" class="updated fade"><p><strong>' . __( 'Records Purged.', $this->text_domain ) . '</strong></p></div>';
 		} else if ( isset( $_POST['test_deprecated'] ) ) {
 			wp_verify_nonce( $this->text_domain . '-test' );
@@ -253,7 +246,6 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 	}
 
 	function admin_page() {
-		// $this->purge_log_table( 3600 );
 		add_action( 'in_admin_footer', array( &$this, 'admin_footer' ), 9 );
 		$this->process_secondary_forms();
 ?>
@@ -371,32 +363,6 @@ EOS;
 	</form>
 </div><!-- wrap -->
 <?php
-	}
-
-//*********************************
-//    Scheduling Functions
-//*********************************
-
-	var $schedule_hook = 'purge_deprecated_calls_log';
-
-	function new_cron_intervals() {
-		return array(
-			'tenminutes' => array('interval' => 600, 'display' => 'Every 10 Minutes'),
-			'halfhour' => array('interval' => 1800, 'display' => 'Every Half Hour')
-		);
-	}
-
-	function schedule_purge( $interval = 'halfhour' ) {
-		if ( ! wp_next_scheduled( $this->schedule_hook ) ) {
-			wp_schedule_event( time(), $interval, $this->schedule_hook );
-		}
-		add_action( $this->schedule_hook, array(&$this, 'purge_log_table') );
-	}
-
-	function unschedule_purge() {
-		if ( wp_next_scheduled( $this->schedule_hook ) ) {
-			wp_clear_scheduled_hook( $this->schedule_hook );
-		}
 	}
 
 } // end class log_dep_calls
