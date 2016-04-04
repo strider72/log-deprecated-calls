@@ -24,9 +24,9 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 		$this->core_init();
 
 	// then whatever else this plugin needs
-		add_action( 'deprecated_function_run', array(&$this, 'deprecated_function'), 10, 3 );
-		add_action( 'deprecated_file_included', array(&$this, 'deprecated_file'), 10, 3 );
-		add_action( 'deprecated_argument_run', array(&$this, 'deprecated_argument'), 10, 3 );
+		add_action( 'deprecated_function_run', array(&$this, 'deprecated_function'), 1, 3 );
+		add_action( 'deprecated_file_included', array(&$this, 'deprecated_file'), 1, 3 );
+		add_action( 'deprecated_argument_run', array(&$this, 'deprecated_argument'), 1, 3 );
 		add_action( 'admin_menu', array( &$this, 'add_admin_page' ) );
 
 		// FIXME: Schedule cron so that table purges old records every so often.  Otherwise table can get really massive
