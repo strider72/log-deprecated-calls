@@ -1,7 +1,7 @@
 <?php
 // TODO: Remove the old purge scheduling stuff. No longer needed after v1.3.
 
-class log_dep_calls extends strider_core_b2 {
+class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 
 	var $option_name = 'plugin_log-deprecated-calls_settings';
 	var $option_version = '0.4.1';
