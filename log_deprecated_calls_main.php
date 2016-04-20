@@ -193,16 +193,9 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 		return ( $wpdb->get_var( "SHOW TABLES LIKE '$this->table_name'" ) == $this->table_name );
 	}
 
-	function purge_log_table( $timerInSeconds = null ) {
-		// Purge all records older than {$timerInSeconds} seconds
-		if ( ! $timerInSeconds === null ) {
-			$timerInSeconds = 0;
-		}
-// error_log("running purge_log_table( $timer )");  // testing only
+	function purge_log_table() {
 		global $wpdb;
-		$deadline = time() - $timerInSeconds;
-
-		$delquery = "DELETE FROM $this->table_name WHERE call_time < $deadline";
+		$delquery = "TRUNCATE TABLE $this->table_name";
 		return $wpdb->query( $delquery );
 	}
 
