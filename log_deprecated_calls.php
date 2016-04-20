@@ -10,11 +10,6 @@ TextDomain: log_deprecated_calls
 DomainPath: /lang/
 */
 
-$strider_core_b2_plugins[plugin_basename( __FILE__ )] = array(
-	'core file' => dirname( __FILE__ ) . '/log_deprecated_calls_main.php',
-	'name' => 'Log Deprecated Files'
-	);
-
 require( 'strider-core-local.php' );
 require( 'log_deprecated_calls_main.php' );
 ?>
