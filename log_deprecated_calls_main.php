@@ -9,7 +9,7 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 	var $text_domain = 'log_deprecated_calls';
 
 	var $table_name = 'deprecated_calls';
-	var $table_version = '1.1';
+	var $table_version = '1.2';
 
 	function __construct() {
 		global $wpdb;
@@ -168,9 +168,12 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 			$this->update_option( 'last_table_ver', $this->table_version );
 		}
 
+
 		if ( ! $this->log_table_exists() ) {
-			$sql = 'CREATE TABLE ' . $this->table_name . ' (
-				call_time bigint(11) DEFAULT \'0\' NOT NULL,
+			global $wpdb;
+			$charset_collate = $wpdb->get_charset_collate();
+			$sql = "CREATE TABLE $this->table_name (
+				call_time bigint(11) DEFAULT '0' NOT NULL,
 				call_type tinytext NOT NULL,
 				target tinytext NOT NULL,
 				replacement tinytext,
@@ -178,7 +181,7 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 				line_num int NOT NULL,
 				version tinytext,
 				counter int UNSIGNED
-				);';
+				) $charset_collate;";
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 			dbDelta( $sql );
