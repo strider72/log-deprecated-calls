@@ -237,6 +237,7 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 		} else if ( isset( $_POST['test_deprecated'] ) ) {
 			wp_verify_nonce( $this->text_domain . '-test' );
 			$this->test();
+			echo '<div id="message" class="updated fade"><p><strong>' . __( 'Test Complete.', $this->text_domain ) . '</strong></p></div>';
 		}
 		return true;
 	}
