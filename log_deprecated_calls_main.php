@@ -355,7 +355,7 @@ EOS;
 		<?php if ( function_exists( 'wp_nonce_field' ) )
 			wp_nonce_field( $this->text_domain . '-test' );
 		?>
-		<p><input type="submit" name="test_deprecated" class="button-primary" value="<?php _e( 'Run Test', $this->text_domain ) ?>" /> <?php _e( 'This will call a "dummy" deprecated function and a file, and log them as normal.', $this->text_domain )?></p>
+		<p><input type="submit" name="test_deprecated" class="button-primary" value="<?php _e( 'Run Test', $this->text_domain ) ?>" /> <?php _e( 'This will call a "dummy" deprecated function, file, and argument, and log them as normal.', $this->text_domain )?></p>
 	</form>
 </div><!-- wrap -->
 <?php
