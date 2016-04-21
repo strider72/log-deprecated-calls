@@ -41,7 +41,6 @@ Yes. It works for any code running within WordPress, including Themes and Plugin
 * Now uses local private copy of Strider Core framework. Allows plugin hooks to load sooner and potentially catch more
 * Deprecated call hooks also fire on higher priority (1)
 * Removed scheduled purge code. Never really worked, and no longer needed after v1.3 improvements
-* copied admin_footer() override to main file from Strider Core; removes Strider Core version on mouseover
 
 = 1.3 =
 * 2015-05-26
