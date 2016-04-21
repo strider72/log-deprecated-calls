@@ -18,6 +18,10 @@ Logs any calls to deprecated functions, files, or arguments, and identifies the 
 
 There is an admin screen under the "Plugins" menu.  There you can toggle logging to PHP log or a table in the WordPress Database.  You can also see records from that table (if any), and run a "test" that calls a dummy deprecated function, includes a dummy deprecated file, and calls a function with a deprecated argument.
 
+== Screenshots ==
+
+1.  The Manage page found under Plugins > Deprecated Calls
+
 == Installation ==
 
 Pretty much like any other WordPress Plugin.  Upload to Plugins directory.
