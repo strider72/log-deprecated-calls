@@ -1,8 +1,3 @@
-= IMPORTANT NOTICE =
-For some reason the contents of the /strider-core directory are not downloading by default when you clone the project or download a Zip file.  Hopefully fixed soon, but GitHub hasn't gotten back to me. In the meantime you can clone the entire project from the command-line using the --recursive switch:
-git clone --recursive https://github.com/strider72/log-deprecated-calls
-
-
 Log Deprecated Calls
 plugin for WordPress
 
