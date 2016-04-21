@@ -7,7 +7,7 @@ Donate link: https://paypal.me/SteveRider
 Tags: plugin, admin, developer, logging, debug, WP_DEBUG
 Requires at least: 3.0
 Tested up to: 4.6
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 
 Logs any calls to deprecated functions, files, or arguments, and identifies the function that made the call. Handy for plugin and theme authors.
