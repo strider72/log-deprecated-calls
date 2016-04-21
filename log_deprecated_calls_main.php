@@ -208,6 +208,13 @@ class log_dep_calls extends strider_core_b2_LogDeprecatedCalls {
 		return $this->_add_admin_page( $param );
 	}
 
+	function admin_footer() {
+		$pluginfo = $this->get_plugin_data();
+		printf( $this->sc__( '%1$s plugin | Version %2$s | by %3$s<br />' ),
+		        $pluginfo[ 'Title' ], $pluginfo[ 'Version' ],
+		        $pluginfo[ 'Author' ] );
+	}
+
 	function register_settings () {
 		register_setting( $this->text_domain . '-group', $this->option_name, array(&$this, 'process_options' ) );
 	}
